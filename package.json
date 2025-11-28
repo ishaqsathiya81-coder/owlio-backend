@@ -1,0 +1,9 @@
+{
+  "name": "owlio-backend",
+  "type": "module",
+  "dependencies": {
+    "express": "^4.18.2",
+    "openai": "4.68.4",
+    "cors": "^2.8.5"
+  }
+}
