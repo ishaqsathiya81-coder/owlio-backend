@@ -14,12 +14,12 @@ const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// Test route
-app.get("/", (req, res) => {
+// ✅ Test route
+app.get("/test", (req, res) => {
   res.send("Owlio backend is working!");
 });
 
-// AI route
+// ✅ AI route
 app.post("/ask", async (req, res) => {
   console.log("🟢 /ask endpoint hit");
 
@@ -32,10 +32,11 @@ app.post("/ask", async (req, res) => {
     }
 
     if (!process.env.OPENAI_API_KEY) {
-      console.log("❌ Missing API key");
+      console.log("❌ Missing OpenAI API Key");
       return res.status(500).json({ error: "Missing OpenAI API Key" });
     }
 
+    // Call OpenAI API
     const completion = await client.chat.completions.create({
       model: "gpt-4.1",
       messages: [{ role: "user", content: question }],
@@ -52,8 +53,9 @@ app.post("/ask", async (req, res) => {
   }
 });
 
-// Start server
-app.listen(3000, () => {
-  console.log("Server running on port 3000");
+// ✅ Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+  console.log(`Open forwarded URL in GitHub Codespaces to test.`);
 });
-
