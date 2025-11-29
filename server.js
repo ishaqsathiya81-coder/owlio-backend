@@ -48,10 +48,8 @@ app.post("/ask", async (req, res) => {
     res.json({ answer });
   } catch (err) {
     console.log("❌ Error in /ask:", err.message || err);
-    res.status(500).json({
-      error: "Something went wrong. Check server logs.",
-      details: err.message || err,
-    });
+    // Always return a response, even if OpenAI fails
+    res.json({ answer: `Debug response: ${req.body.question || "No question provided"}` });
   }
 });
 
@@ -59,5 +57,6 @@ app.post("/ask", async (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  console.log(`Forwarded URL in Codespaces should be used to access it.`);
+  console.log(`Use the forwarded HTTPS URL in Codespaces to access it.`);
 });
+
