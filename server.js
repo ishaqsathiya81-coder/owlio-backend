@@ -28,7 +28,7 @@ app.post("/ask", async (req, res) => {
   }
 });
 
-app.get("/", (req, res) => {
+app.get("ask/", (req, res) => {
   res.send("Owlio backend is working!");
 });
 
