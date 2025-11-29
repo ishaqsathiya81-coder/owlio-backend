@@ -19,7 +19,7 @@ app.get("/test", (req, res) => {
   res.send("Owlio backend is working!");
 });
 
-// ✅ AI route
+// ✅ AI route with safe handling
 app.post("/ask", async (req, res) => {
   console.log("🟢 /ask endpoint hit");
 
@@ -42,14 +42,16 @@ app.post("/ask", async (req, res) => {
       messages: [{ role: "user", content: question }],
     });
 
-    console.log("AI response received.");
+    const answer = completion.choices[0]?.message?.content || "No response from AI";
+    console.log("AI response received:", answer);
 
-    res.json({
-      answer: completion.choices[0].message.content,
-    });
+    res.json({ answer });
   } catch (err) {
-    console.log("❌ Error in /ask:", err);
-    res.status(500).json({ error: "Something went wrong" });
+    console.log("❌ Error in /ask:", err.message || err);
+    res.status(500).json({
+      error: "Something went wrong. Check server logs.",
+      details: err.message || err,
+    });
   }
 });
 
@@ -57,5 +59,5 @@ app.post("/ask", async (req, res) => {
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  console.log(`Open forwarded URL in GitHub Codespaces to test.`);
+  console.log(`Forwarded URL in Codespaces should be used to access it.`);
 });
