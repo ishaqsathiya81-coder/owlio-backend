@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import OpenAI from "openai";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 app.use(cors());
@@ -10,6 +12,12 @@ const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// Test route
+app.get("/", (req, res) => {
+  res.send("Owlio backend is working!");
+});
+
+// AI route
 app.post("/ask", async (req, res) => {
   try {
     const { question } = req.body;
@@ -26,10 +34,6 @@ app.post("/ask", async (req, res) => {
     console.log(err);
     res.status(500).json({ error: "Something went wrong" });
   }
-});
-
-app.get("ask/", (req, res) => {
-  res.send("Owlio backend is working!");
 });
 
 app.listen(3000, () => console.log("Server running on port 3000"));
