@@ -1,8 +1,8 @@
 // server.js
 import express from "express";
 import cors from "cors";
-import OpenAI from "openai";
 import dotenv from "dotenv";
+import OpenAI from "openai";
 
 dotenv.config();
 
@@ -22,8 +22,6 @@ app.get("/", (req, res) => {
 
 // AI route
 app.post("/ask", async (req, res) => {
-  console.log("🟢 /ask endpoint hit");
-
   const { question } = req.body;
   if (!question) return res.status(400).json({ error: "Question is required" });
 
@@ -36,17 +34,12 @@ app.post("/ask", async (req, res) => {
     });
 
     const answer = completion.choices[0]?.message?.content || "No response from AI";
-    console.log("AI response received:", answer);
-
     res.json({ answer });
   } catch (err) {
-    console.log("❌ Error in /ask:", err.message);
     res.json({ answer: `Debug response: ${question}` });
   }
 });
 
 // Start server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
