@@ -20,7 +20,6 @@ app.get("/", (req, res) => {
   res.send("Owlio backend is working!");
 });
 
-// ✅ AI route
 app.post("/ask", async (req, res) => {
   console.log("🟢 /ask endpoint hit");
 
@@ -46,14 +45,7 @@ app.post("/ask", async (req, res) => {
     res.json({ answer });
   } catch (err) {
     console.log("❌ Error in /ask:", err.message);
-    // Always return something so curl or frontend never hangs
+    // Always respond so curl never returns nothing
     res.json({ answer: `Debug response: ${question}` });
   }
-});
-
-// ✅ Start server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log("Use the forwarded HTTPS URL in Codespaces to access it.");
 });
